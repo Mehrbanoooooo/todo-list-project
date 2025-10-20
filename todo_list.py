@@ -1,17 +1,17 @@
 
 # -*- coding: utf-8 -*-
+import csv
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-import csv
 
 class Task:
-    def __init__(self, title, priority="متوسط"):
+    def __init__(self, title, priority="Medium"):
         self.title = title
         self.priority = priority
 
     def __str__(self):
-        return f"عنوان: {self.title} | اولویت: {self.priority}"
+        return f"Title: {self.title} | Priority: {self.priority}"
 
 
 class ToDoList:
@@ -20,26 +20,26 @@ class ToDoList:
         self.tasks = []
         self.load_tasks()
 
-    def add_task(self, title, priority="متوسط"):
+    def add_task(self, title, priority="Medium"):
         task = Task(title, priority)
         self.tasks.append(task)
         self.save_tasks()
-        print(f"✅ کار '{title}' با اولویت '{priority}' اضافه شد.")
+        print(f"✅ Do '{title}' With priority  '{priority}' Added. ")
 
     def remove_task(self, title):
         for task in self.tasks:
             if task.title == title:
                 self.tasks.remove(task)
                 self.save_tasks()
-                print(f"🗑️ کار '{title}' حذف شد.")
+                print(f"🗑️ Do '{title}' Deleted.")
                 return
-        print("⚠️ کاری با این عنوان پیدا نشد.")
+        print("⚠️ No work Do this title was found.")
 
     def view_tasks(self):
         if not self.tasks:
-            print("📭 هیچ کاری در لیست وجود ندارد.")
+            print("📭 There are no tasks on the list.")
         else:
-            print("\n📋 لیست کارها:")
+            print("\n📋 To-do list:")
             for i, task in enumerate(self.tasks, start=1):
                 print(f"{i}. {task}")
 
@@ -59,7 +59,7 @@ class ToDoList:
                     priority = row["Priority"]
                     self.tasks.append(Task(title, priority))
         except FileNotFoundError:
-            # اگر فایل وجود نداشت، چیزی لود نمی‌کنیم
+            # If the file doesn't exist, we don't load anything.
             pass
 
 
@@ -67,28 +67,28 @@ def main():
     todo = ToDoList()
 
     while True:
-        print("\n--- منوی مدیریت لیست کارها ---")
-        print("1. اضافه کردن کار جدید")
-        print("2. حذف کار")
-        print("3. مشاهده لیست کارها")
-        print("4. خروج")
+        print("\n--- To-do list management menu ---")
+        print("1. Add new task")
+        print("2. Delete Do")
+        print("3. View task list")
+        print("4. Exit")
 
-        choice = input("لطفاً شماره گزینه را وارد کنید: ")
+        choice = input("Please enter the option number: ")
 
         if choice == "1":
-            title = input("عنوان کار: ")
-            priority = input("اولویت (بالا/متوسط/پایین): ")
+            title = input("Do Title: ")
+            priority = input("Priority (High/Medium/Low): ")
             todo.add_task(title, priority)
         elif choice == "2":
-            title = input("عنوان کاری که می‌خواهید حذف کنید: ")
+            title = input("Do title you want to delete: ")
             todo.remove_task(title)
         elif choice == "3":
             todo.view_tasks()
         elif choice == "4":
-            print("👋 خداحافظ! لیست ذخیره شد.")
+            print("👋 Goodbye! List saved.")
             break
         else:
-            print("❌ گزینه نامعتبر است، دوباره تلاش کنید.")
+            print("❌ Invalid option, try again.")
 
 
 if __name__ == "__main__":
